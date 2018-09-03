@@ -1,0 +1,6 @@
+[package]
+name = "fixspaces"
+version = "0.1.0"
+authors = ["Jonathan Gerber <jlgerber@gmail.com>"]
+
+[dependencies]
