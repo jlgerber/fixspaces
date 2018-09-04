@@ -1,6 +1,6 @@
 [package]
+authors = ["Jonathan Gerber <jlgerber@gmail.com>"]
 name = "fixspaces"
 version = "0.1.0"
-authors = ["Jonathan Gerber <jlgerber@gmail.com>"]
-
 [dependencies]
+rayon = "1.0"
