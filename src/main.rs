@@ -25,24 +25,27 @@ fn fix_dir(pathstr: &str) -> io::Result<()> {
         .collect::<Vec<DirEntry>>()
         .par_iter()
         .for_each(|entry| {
-            let path = entry.path();
-            /*
+            let mut path = entry.path();
+           
+                // the heart of it
+            if let Some(pathstr) = path.clone().to_str() {
+                let replacement = pathstr.replace(" ", "_");
+                let replacement = Path::new(replacement.as_str());
+                if rename(path.clone(),replacement).is_err() {
+                    println!("renaming {} failed", pathstr);
+                } else {
+                    if pathstr.contains(" ") { 
+                        println!("renamed {}",pathstr);
+                        path = replacement.to_path_buf();
+                    }
+                };
+            }
             if path.is_dir() {
                 // recurse
-                println!(
-                    "skipping directory {:?}", path
-                );
-            } else {
-                */
-                // the heart of it
-                if let Some(pathstr) = path.to_str() {
-                    let replacement = pathstr.replace(" ", "_");
-                    let replacement = Path::new(replacement.as_str());
-                    if rename(path.clone(),replacement).is_err() {
-                        println!("renaming {} failed", pathstr);
-                    };
+                if fix_dir(path.clone().to_str().expect("unable to convert")).is_err() {
+                    println!("fixdir failed on {}", path.to_str().expect("unable to convert"));
                 }
-            //}
+            }
         });
     }
     Ok(())
